@@ -1,121 +1,132 @@
 {
-	"name": "of-course-i-still-log-you",
-	"displayName": "Of course I still log you",
-	"description": "Amazing log helper",
-	"version": "0.0.1",
-	"engines": {
-		"vscode": "^1.61.0"
-	},
-	"categories": [
-		"Other",
-		"Programming Languages",
-		"Formatters",
-		"Themes",
-		"Visualization"
-	],
-	"activationEvents": [
-        "onView:logyouview",
-		"onLanguage:logyou"
-	],
-	"browser": "./dist/web/extension.js",
-	"contributes": {
-		"configurationDefaults": {
-			"[logyou]": {
-				"editor.semanticHighlighting.enabled": true
-			}
-		},
-		"themes": [
-			{
-				"uiTheme": "vs",
-				"id": "logyoutheme",
-				"label": "Log you",
-				"path": "resources/logyoutheme.json"
-			}
-		],
-		"languages": [{
-			"id": "logyou"
-		}],
-		"semanticTokenTypes": [{
-			"id": "tag1",
-			"description": "Tag 1"
-		}],
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"icon": "resources/icon.svg",
-					"id": "logyoucontainer",
-					"title": "Of course I still log you"
-				}
-			]
-		},
-		"views": {
-			"logyoucontainer": [
-				{
-					"id": "logyouview",
-					"name": "Of course I still log you",
-					"icon": "resources/icon.svg",
-					"contextualTitle": "Of course I still log you",
-					"type": "tree",
-					"visibility": "visible"
-				}
-			]
-		},
-		"commands":[
-			{
-				"command": "logyouview.add",
-				"title": "Add",
-				"icon": {
-					"light": "resources/light/add.svg",
-					"dark": "resources/dark/add.svg"
-				}
-			},
-			{
-				"command": "logyouview.edit",
-				"title": "Edit"
-			}
-		],
-
-		"menus": {
-			"view/title": [
-				{
-					"command": "logyouview.add",
-					"when": "view == logyouview",
-					"group": "navigation"
-				}
-			],
-			"view/item/context": [
-			  {
-				"command": "logyouview.edit",
-				"when": "view == logyouview",
-				"group": "inline"
-			  }
-			]
-		}
-	},
-	"scripts": {
-		"test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
-		"pretest": "npm run compile-web",
-		"vscode:prepublish": "npm run package-web",
-		"compile-web": "webpack",
-		"watch-web": "webpack --watch",
-		"package-web": "webpack --mode production --devtool hidden-source-map",
-		"lint": "eslint src --ext ts",
-		"run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ."
-	},
-	"devDependencies": {
-		"@types/vscode": "^1.61.0",
-		"@types/mocha": "^9.0.0",
-		"eslint": "^7.32.0",
-		"@typescript-eslint/eslint-plugin": "^4.31.1",
-		"@typescript-eslint/parser": "^4.31.1",
-		"mocha": "^9.1.1",
-		"typescript": "^4.4.3",
-		"@vscode/test-web": "^0.0.13",
-		"ts-loader": "^9.2.5",
-		"webpack": "^5.52.1",
-		"webpack-cli": "^4.8.0",
-		"@types/webpack-env": "^1.16.2",
-		"assert": "^2.0.0",
-		"process": "^0.11.10"
-	}
+  "name": "of-course-i-still-log-you",
+  "displayName": "Of course I still log you",
+  "description": "Amazing log helper",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.61.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages",
+    "Formatters",
+    "Themes",
+    "Visualization"
+  ],
+  "activationEvents": [
+    "onView:logyouview",
+    "onLanguage:logyou"
+  ],
+  "browser": "./dist/web/extension.js",
+  "contributes": {
+    "configurationDefaults": {
+      "[logyou]": {
+        "editor.semanticHighlighting.enabled": true
+      }
+    },
+    "themes": [
+      {
+        "uiTheme": "vs",
+        "id": "logyoutheme",
+        "label": "Log you",
+        "path": "resources/logyoutheme.json"
+      }
+    ],
+    "languages": [
+      {
+        "id": "logyou"
+      }
+    ],
+    "semanticTokenTypes": [
+      {
+        "id": "tag1",
+        "description": "Tag 1"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "icon": "resources/icon.svg",
+          "id": "logyoucontainer",
+          "title": "Of course I still log you"
+        }
+      ]
+    },
+    "views": {
+      "logyoucontainer": [
+        {
+          "id": "logyouview",
+          "name": "Of course I still log you",
+          "icon": "resources/icon.svg",
+          "contextualTitle": "Of course I still log you",
+          "type": "tree",
+          "visibility": "visible"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "logyouview.add",
+        "title": "Add",
+        "icon": {
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
+        }
+      },
+      {
+        "command": "logyouview.edit",
+        "title": "Edit"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "logyouview.add",
+          "when": "view == logyouview",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "logyouview.edit",
+          "when": "view == logyouview",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
+    "pretest": "npm run compile-web",
+    "vscode:prepublish": "npm run package-web",
+    "compile-web": "webpack",
+    "watch-web": "webpack --watch",
+    "package-web": "webpack --mode production --devtool hidden-source-map",
+    "lint": "eslint src --ext ts",
+    "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ."
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.61.0",
+    "@types/mocha": "^9.0.0",
+    "eslint": "^7.32.0",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.31.1",
+    "mocha": "^9.1.1",
+    "typescript": "^4.4.3",
+    "@vscode/test-web": "^0.0.13",
+    "ts-loader": "^9.2.5",
+    "webpack": "^5.52.1",
+    "webpack-cli": "^4.8.0",
+    "@types/webpack-env": "^1.16.2",
+    "assert": "^2.0.0",
+    "process": "^0.11.10"
+  },
+  "author": {
+    "name": "Diego Pérez",
+    "email": "eazel7@gmail.com"
+  },
+  "publisher": "eazel7",
+  "repository": {
+	  "url": "https://github.com/eazel7/of-course-i-still-log-you.git"
+  }
 }
