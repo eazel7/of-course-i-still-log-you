@@ -1,0 +1,17 @@
+{
+    "name": "Of course I still log you",
+    "tokenColors": [
+      {
+        "settings": {
+          "background": "#272822",
+          "foreground": "#F8F8F2"
+        }
+      }
+    ],
+    "semanticHighlighting": true,
+    "semanticTokenColors": {
+      "tag1:logyou": "#ff0011",
+      "tag2:logyou": "#4a0095",
+      "tag3:logyou": "#a53700"
+    }
+  }
