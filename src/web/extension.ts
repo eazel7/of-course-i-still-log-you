@@ -24,7 +24,7 @@ class OfCourseIStillLogYouTreeDataProvider
   lastId = 0;
   onRefresh: () => void = () => {};
 
-  addRandomEntry() {
+  addNewEntry() {
     this.rules.push(
       new LogColoringRule(
         (++this.lastId).toString(),
@@ -59,6 +59,7 @@ class OfCourseIStillLogYouTreeDataProvider
   ): vscode.TreeItem | Thenable<vscode.TreeItem> {
     return element;
   }
+
   getChildren(
     element?: LogColoringRule
   ): vscode.ProviderResult<LogColoringRule[]> {
@@ -125,7 +126,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   let addCommand = vscode.commands.registerCommand("logyouview.add", () => {
-    dataProvider.addRandomEntry();
+    dataProvider.addNewEntry();
   });
 
   let editViewsByRule: { [id: string]: vscode.WebviewPanel } = {};
