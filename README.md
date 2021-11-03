@@ -34,11 +34,11 @@ So far, that it's absolutely basic! So it's much more now about missing features
 
 ## Missing features
 
-- To delete an existing rule
-- To have a dark theme
+[x] To delete an existing rule
+[x] To have a dark theme
+[x] To save and load the rules across restarts
 - Add more colors
 - Have prettier colors. Pretty colors. The current ones are ugly.
-- To save and load the rules across restarts
 - To test regular expressions
 - To hide/fold uninteresting lines
 - To extract named information from a line (capture groups?)
@@ -47,7 +47,14 @@ So far, that it's absolutely basic! So it's much more now about missing features
 
 ## Release Notes
 
-### 1.0.0
+### 0.0.2
+
+- Can delete rules
+- Loads and save the rules for a workspace
+- Have two themes: dark and light
+- Tweaked the colors a little bit
+
+### 0.0.1
 
 Initial release of *Of course I still log you*
 
