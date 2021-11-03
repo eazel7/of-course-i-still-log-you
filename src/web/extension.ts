@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { Buffer } from 'buffer';
+import { Buffer } from "buffer";
 import { Uri } from "vscode";
 
 class LogColoringRule extends vscode.TreeItem {
@@ -24,24 +24,31 @@ class LogColoringRule extends vscode.TreeItem {
 class OfCourseIStillLogYouTreeDataProvider
   implements vscode.TreeDataProvider<LogColoringRule>
 {
-  lastId = 0;
+  deleteRule(rule: LogColoringRule) {
+    this.rules.splice(this.rules.indexOf(rule), 1);
+    this.saveToDisk().then(() => {
+      this.refresh();
+      this.onRefresh();
+    });
+  }
+  lastId = 1;
   onRefresh: () => void = () => {};
 
   addNewEntry() {
-    this.rules.push(
-      new LogColoringRule(
-        (++this.lastId).toString(),
-        `Rule ${this.lastId.toString()}`,
-        "",
-        () => {
-          this.refresh();
-          this.onRefresh();
-        }
-      )
+    let rule = new LogColoringRule(
+      (++this.lastId).toString(),
+      `Rule ${this.lastId.toString()}`,
+      "",
+      () => {
+        this.refresh();
+        this.onRefresh();
+      }
     );
+    this.rules.push(rule);
 
     this.saveToDisk();
     this.refresh();
+    return rule;
   }
 
   loadFromDisk(): Thenable<void> {
@@ -58,12 +65,16 @@ class OfCourseIStillLogYouTreeDataProvider
 
         try {
           let rulesInSettings: {
-            id: string;
-            label: string;
-            regexp: string;
-          }[] = JSON.parse(asJson);
+            lastId: number;
+            rules: {
+              id: string;
+              label: string;
+              regexp: string;
+            }[];
+          } = JSON.parse(asJson);
 
-          rulesInSettings.forEach((r) => {
+          this.lastId = rulesInSettings.lastId;
+          rulesInSettings.rules.forEach((r) => {
             this.rules.push(
               new LogColoringRule(r.id, r.label, r.regexp, () => {
                 this.refresh();
@@ -74,8 +85,7 @@ class OfCourseIStillLogYouTreeDataProvider
         } finally {
           this.refresh();
         }
-      } catch (e) {
-      }
+      } catch (e) {}
     })();
   }
 
@@ -91,13 +101,15 @@ class OfCourseIStillLogYouTreeDataProvider
         await vscode.workspace.fs.writeFile(
           settingsUri,
           Buffer.from(
-            JSON.stringify(
-              this.rules.map((r) => ({
+            JSON.stringify({
+              lastId: this.lastId,
+              rules: this.rules.map((r) => ({
+                id: r.id,
                 regexp: r.regexp,
                 label: r.label,
                 tag: r.tag,
-              }))
-            ),
+              })),
+            }),
             "utf8"
           )
         );
@@ -197,7 +209,8 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   let addCommand = vscode.commands.registerCommand("logyouview.add", () => {
-    dataProvider.addNewEntry();
+    let rule = dataProvider.addNewEntry();
+    vscode.commands.executeCommand("logyouview.edit", rule);
   });
 
   let editViewsByRule: { [id: string]: vscode.WebviewPanel } = {};
@@ -230,6 +243,10 @@ export function activate(context: vscode.ExtensionContext) {
                 (rule.tag = e.selectedtag);
               rule.update();
               break;
+            case "delete":
+              dataProvider.deleteRule(rule);
+              view.dispose();
+              break;
           }
         });
 
@@ -254,9 +271,16 @@ export function activate(context: vscode.ExtensionContext) {
               <option value="tag3">Tag 3</option>
             </select></label></div>
 			      	<div><input type="button" id="savebutton" value="Save" /></div>
+              <div><input type="button" id="deletebutton" value="Delete" /></div>
 				  <script>
 				  (function() {
 					  const vscode = acquireVsCodeApi();
+
+					  document.getElementById('deletebutton').addEventListener('click', function () {
+						  vscode.postMessage({
+							  command: 'delete'
+						  });
+            });
 					  
 					  document.getElementById('savebutton').addEventListener('click', function () {
 						let label = document.getElementById('rulelabel').value;
