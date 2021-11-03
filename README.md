@@ -25,8 +25,7 @@ None so far, but you may want to customize a theme. In that case, this need to b
     "tag3:logyou": "#a53700"
 }
 ```
-
-
+It comes with two themes, one Dark and another one Light, based upon Dark and Light VS code default themes.
 
 ## Known Issues
 
@@ -34,9 +33,6 @@ So far, that it's absolutely basic! So it's much more now about missing features
 
 ## Missing features
 
-[x] To delete an existing rule
-[x] To have a dark theme
-[x] To save and load the rules across restarts
 - Add more colors
 - Have prettier colors. Pretty colors. The current ones are ugly.
 - To test regular expressions
@@ -46,6 +42,10 @@ So far, that it's absolutely basic! So it's much more now about missing features
 - To export the extracted information (like the captured groups) in a machine format (JSON)
 
 ## Release Notes
+
+### 0.0.3
+
+- Updated this README.md
 
 ### 0.0.2
 
