@@ -1,4 +1,6 @@
 import * as vscode from "vscode";
+import { Buffer } from 'buffer';
+import { Uri } from "vscode";
 
 class LogColoringRule extends vscode.TreeItem {
   onUpdate: () => void;
@@ -8,10 +10,11 @@ class LogColoringRule extends vscode.TreeItem {
   regexp: string = "";
   tag: string = "tag1";
 
-  constructor(id: string, label: string, onUpdate: () => void) {
+  constructor(id: string, label: string, regexp: string, onUpdate: () => void) {
     super(label, vscode.TreeItemCollapsibleState.None);
 
     this.id = id;
+    this.regexp = regexp;
     this.onUpdate = onUpdate;
   }
 
@@ -29,13 +32,81 @@ class OfCourseIStillLogYouTreeDataProvider
       new LogColoringRule(
         (++this.lastId).toString(),
         `Rule ${this.lastId.toString()}`,
+        "",
         () => {
           this.refresh();
           this.onRefresh();
         }
       )
     );
+
+    this.saveToDisk();
     this.refresh();
+  }
+
+  loadFromDisk(): Thenable<void> {
+    return (async () => {
+      try {
+        let baseUri = this.context.storageUri as Uri;
+        await vscode.workspace.fs.createDirectory(baseUri);
+        let settingsUri = baseUri.with({
+          path: baseUri.path + "/settings.json",
+        });
+
+        let contents = await vscode.workspace.fs.readFile(settingsUri);
+        let asJson = new TextDecoder().decode(contents);
+
+        try {
+          let rulesInSettings: {
+            id: string;
+            label: string;
+            regexp: string;
+          }[] = JSON.parse(asJson);
+
+          rulesInSettings.forEach((r) => {
+            this.rules.push(
+              new LogColoringRule(r.id, r.label, r.regexp, () => {
+                this.refresh();
+                this.onRefresh();
+              })
+            );
+          });
+        } finally {
+          this.refresh();
+        }
+      } catch (e) {
+      }
+    })();
+  }
+
+  saveToDisk(): Thenable<void> {
+    if (this.context.storageUri !== undefined) {
+      return (async () => {
+        let baseUri = this.context.storageUri as Uri;
+        await vscode.workspace.fs.createDirectory(baseUri);
+        let settingsUri = baseUri.with({
+          path: baseUri.path + "/settings.json",
+        });
+
+        await vscode.workspace.fs.writeFile(
+          settingsUri,
+          Buffer.from(
+            JSON.stringify(
+              this.rules.map((r) => ({
+                regexp: r.regexp,
+                label: r.label,
+                tag: r.tag,
+              }))
+            ),
+            "utf8"
+          )
+        );
+
+        this.refresh();
+      })();
+    } else {
+      return Promise.resolve();
+    }
   }
   private context: vscode.ExtensionContext;
 
@@ -143,7 +214,7 @@ export function activate(context: vscode.ExtensionContext) {
           vscode.ViewColumn.Two,
           {
             enableScripts: true,
-            retainContextWhenHidden: true
+            retainContextWhenHidden: true,
           }
         ));
 
@@ -205,7 +276,6 @@ export function activate(context: vscode.ExtensionContext) {
       }
     }
   );
-  dataProvider.refresh();
 
   let legend = new vscode.SemanticTokensLegend(["tag1", "tag2", "tag3"], []);
   let semanticProvider = new LogYouSemanticTokensProvider(legend, dataProvider);
@@ -220,7 +290,9 @@ export function activate(context: vscode.ExtensionContext) {
     semanticProvider.refresh();
   };
 
-  semanticProvider.refresh();
+  dataProvider.loadFromDisk().then(() => {
+    semanticProvider.refresh();
+  });
 
   context.subscriptions.push(semanticProviderDisposable);
   context.subscriptions.push(dataProviderDisposable);
