@@ -2,7 +2,7 @@
   "name": "of-course-i-still-log-you",
   "displayName": "Of course I still log you",
   "description": "Amazing log helper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.61.0"
   },
@@ -27,9 +27,15 @@
     "themes": [
       {
         "uiTheme": "vs",
-        "id": "logyoutheme",
-        "label": "Log you",
-        "path": "resources/logyoutheme.json"
+        "id": "logyouthemelight",
+        "label": "Log you - Light",
+        "path": "resources/logyoutheme-light-color-theme.json"
+      },
+      {
+        "uiTheme": "vs",
+        "id": "logyouthemedark",
+        "label": "Log you - Dark",
+        "path": "resources/logyoutheme-dark-color-theme.json"
       }
     ],
     "languages": [
