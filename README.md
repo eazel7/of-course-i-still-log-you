@@ -6,6 +6,7 @@ This extension allows users to colorize text editor lines based on different reg
 
 1. Colorize based on regular expressions
      - Use the `logyou` document language
+2. Fold lines by consecutive matching (and non-matching) rules
 
 ## Requirements
 
@@ -34,12 +35,15 @@ So far, that it's absolutely basic! So it's much more now about missing features
 ## Missing features
 
 - To test regular expressions
-- To hide/fold uninteresting lines
 - To extract named information from a line (capture groups?)
 - To make it easy to import/export rulesets or profiles and share them somehow
 - To export the extracted information (like the captured groups) in a machine format (JSON)
 
 ## Release Notes
+
+### 0.0.7
+
+- Code folding
 
 ### 0.0.6
 
