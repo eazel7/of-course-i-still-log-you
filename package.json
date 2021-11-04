@@ -76,6 +76,10 @@
       {
         "command": "logyouview.edit",
         "title": "Edit"
+      },
+      {
+        "command": "logyouview.toggleDisabled",
+        "title": "Toggle"
       }
     ],
     "menus": {
@@ -90,6 +94,10 @@
         {
           "command": "logyouview.edit",
           "when": "view == logyouview",
+          "group": "inline"
+        },
+        {
+          "command": "logyouview.toggleDisabled",
           "group": "inline"
         }
       ]
@@ -127,6 +135,6 @@
   },
   "publisher": "eazel7",
   "repository": {
-	  "url": "https://github.com/eazel7/of-course-i-still-log-you.git"
+    "url": "https://github.com/eazel7/of-course-i-still-log-you.git"
   }
 }

@@ -4,18 +4,26 @@ import { Uri } from "vscode";
 
 class LogColoringRule extends vscode.TreeItem {
   onUpdate: () => void;
+  disabled: boolean;
   update() {
     this.onUpdate();
   }
   regexp: string = "";
   tag: string = "tag1";
 
-  constructor(id: string, label: string, regexp: string, onUpdate: () => void) {
+  constructor(
+    id: string,
+    label: string,
+    regexp: string,
+    disabled: boolean,
+    onUpdate: () => void
+  ) {
     super(label, vscode.TreeItemCollapsibleState.None);
 
     this.id = id;
     this.regexp = regexp;
     this.onUpdate = onUpdate;
+    this.disabled = disabled;
   }
 
   id: string;
@@ -24,6 +32,11 @@ class LogColoringRule extends vscode.TreeItem {
 class OfCourseIStillLogYouTreeDataProvider
   implements vscode.TreeDataProvider<LogColoringRule>
 {
+  toggleDisabled(rule: LogColoringRule) {
+    rule.disabled = !rule.disabled;
+    rule.update();
+  }
+
   deleteRule(rule: LogColoringRule) {
     this.rules.splice(this.rules.indexOf(rule), 1);
     this.saveToDisk().then(() => {
@@ -39,6 +52,7 @@ class OfCourseIStillLogYouTreeDataProvider
       (++this.lastId).toString(),
       `Rule ${this.lastId.toString()}`,
       "",
+      false,
       () => {
         this.refresh();
         this.onRefresh();
@@ -70,16 +84,23 @@ class OfCourseIStillLogYouTreeDataProvider
               id: string;
               label: string;
               regexp: string;
+              disabled?: boolean;
             }[];
           } = JSON.parse(asJson);
 
           this.lastId = rulesInSettings.lastId;
           rulesInSettings.rules.forEach((r) => {
             this.rules.push(
-              new LogColoringRule(r.id, r.label, r.regexp, () => {
-                this.refresh();
-                this.onRefresh();
-              })
+              new LogColoringRule(
+                r.id,
+                r.label,
+                r.regexp,
+                r.disabled || false,
+                () => {
+                  this.refresh();
+                  this.onRefresh();
+                }
+              )
             );
           });
         } finally {
@@ -108,6 +129,7 @@ class OfCourseIStillLogYouTreeDataProvider
                 regexp: r.regexp,
                 label: r.label,
                 tag: r.tag,
+                disabled: r.disabled,
               })),
             }),
             "utf8"
@@ -164,10 +186,10 @@ class LogYouSemanticTokensProvider
     this.dataProvider = dataProvider;
   }
 
-  private _onDidChangeFoldingRanges: vscode.EventEmitter<void> =
+  private _onDidChangeSemanticTokens: vscode.EventEmitter<void> =
     new vscode.EventEmitter<void>();
   onDidChangeSemanticTokens: vscode.Event<void> =
-    this._onDidChangeFoldingRanges.event;
+    this._onDidChangeSemanticTokens.event;
 
   provideDocumentSemanticTokens(
     document: vscode.TextDocument,
@@ -177,6 +199,7 @@ class LogYouSemanticTokensProvider
 
     let regexps = this.dataProvider.rules
       .filter((r) => !!r.regexp)
+      .filter((r) => !r.disabled)
       .map((r) => ({
         rule: r,
         regexp: RegExp(r.regexp),
@@ -212,6 +235,12 @@ export function activate(context: vscode.ExtensionContext) {
     let rule = dataProvider.addNewEntry();
     vscode.commands.executeCommand("logyouview.edit", rule);
   });
+  let toggleDisabledCommand = vscode.commands.registerCommand(
+    "logyouview.toggleDisabled",
+    (rule: LogColoringRule) => {
+      dataProvider.toggleDisabled(rule);
+    }
+  );
 
   let editViewsByRule: { [id: string]: vscode.WebviewPanel } = {};
   let editCommand = vscode.commands.registerCommand(
@@ -238,9 +267,10 @@ export function activate(context: vscode.ExtensionContext) {
 
           switch (e.command) {
             case "save":
-              (rule.label = e.label),
-                (rule.regexp = e.regexp),
-                (rule.tag = e.selectedtag);
+              rule.label = e.label;
+              rule.regexp = e.regexp;
+              rule.tag = e.selectedtag;
+              rule.disabled = e.disabled;
               rule.update();
               break;
             case "delete":
@@ -262,8 +292,15 @@ export function activate(context: vscode.ExtensionContext) {
 				  <title>Cat Coding</title>
 			  </head>
 			  <body>
-					<div><label>Rule name: <input type="text" id="rulelabel" value="${rule.label}" /></label></div>
-					<div><label>Regexp: <input type="text" id="ruleregexp" value="${rule.regexp}" /></label></div>
+					<div><label>Rule name: <input type="text" id="rulelabel" value="${
+            rule.label
+          }" /></label></div>
+					<div><label>Regexp: <input type="text" id="ruleregexp" value="${
+            rule.regexp
+          }" /></label></div>
+					<div><label>Disable: <input type="checkbox" id="ruledisabled" ${
+            rule.disabled ? "checked" : ""
+          } /></label></div>
 					<div><label>Tag:
             <select id="selectedtag" value="${rule.tag}">
             <option value="tag1">Tag 1</option>
@@ -292,12 +329,14 @@ export function activate(context: vscode.ExtensionContext) {
 					  document.getElementById('savebutton').addEventListener('click', function () {
 						let label = document.getElementById('rulelabel').value;
 						let regexp = document.getElementById('ruleregexp').value;
+						let ruledisabled = document.getElementById('ruledisabled').checked;
 						let selectedtag = document.getElementById('selectedtag').value;
 						  vscode.postMessage({
 							  command: 'save',
 							  label: label,
 							  regexp: regexp,
-							  selectedtag: selectedtag
+							  selectedtag: selectedtag,
+                disabled: ruledisabled
 						  });
 						});
 				  })();
@@ -309,7 +348,18 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   let legend = new vscode.SemanticTokensLegend(
-    ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9", "invisible"],
+    [
+      "tag1",
+      "tag2",
+      "tag3",
+      "tag4",
+      "tag5",
+      "tag6",
+      "tag7",
+      "tag8",
+      "tag9",
+      "invisible",
+    ],
     []
   );
   let semanticProvider = new LogYouSemanticTokensProvider(legend, dataProvider);
@@ -332,6 +382,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(dataProviderDisposable);
   context.subscriptions.push(editCommand);
   context.subscriptions.push(addCommand);
+  context.subscriptions.push(toggleDisabledCommand);
 }
 
 export function deactivate() {}
