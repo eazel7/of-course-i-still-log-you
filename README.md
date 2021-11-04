@@ -33,8 +33,6 @@ So far, that it's absolutely basic! So it's much more now about missing features
 
 ## Missing features
 
-- Add more colors
-- Have prettier colors. Pretty colors. The current ones are ugly.
 - To test regular expressions
 - To hide/fold uninteresting lines
 - To extract named information from a line (capture groups?)
@@ -42,6 +40,11 @@ So far, that it's absolutely basic! So it's much more now about missing features
 - To export the extracted information (like the captured groups) in a machine format (JSON)
 
 ## Release Notes
+
+### 0.0.4
+
+- More colors 
+- Invisible color (like the background color)
 
 ### 0.0.3
 

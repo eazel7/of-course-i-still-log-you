@@ -266,9 +266,16 @@ export function activate(context: vscode.ExtensionContext) {
 					<div><label>Regexp: <input type="text" id="ruleregexp" value="${rule.regexp}" /></label></div>
 					<div><label>Tag:
             <select id="selectedtag" value="${rule.tag}">
-              <option value="tag1">Tag 1</option>
-              <option value="tag2">Tag 2</option>
-              <option value="tag3">Tag 3</option>
+            <option value="tag1">Tag 1</option>
+            <option value="tag2">Tag 2</option>
+            <option value="tag3">Tag 3</option>
+            <option value="tag4">Tag 4</option>
+            <option value="tag5">Tag 5</option>
+            <option value="tag6">Tag 6</option>
+            <option value="tag7">Tag 7</option>
+            <option value="tag8">Tag 8</option>
+            <option value="tag9">Tag 9</option>
+            <option value="invisible">Invisible</option>
             </select></label></div>
 			      	<div><input type="button" id="savebutton" value="Save" /></div>
               <div><input type="button" id="deletebutton" value="Delete" /></div>
@@ -301,7 +308,10 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
-  let legend = new vscode.SemanticTokensLegend(["tag1", "tag2", "tag3"], []);
+  let legend = new vscode.SemanticTokensLegend(
+    ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9", "invisible"],
+    []
+  );
   let semanticProvider = new LogYouSemanticTokensProvider(legend, dataProvider);
   let semanticProviderDisposable =
     vscode.languages.registerDocumentSemanticTokensProvider(
