@@ -41,6 +41,11 @@ So far, that it's absolutely basic! So it's much more now about missing features
 
 ## Release Notes
 
+### 0.0.6
+
+- A little bit of refactor here and there
+- Bugfix: sync enable/disable status with active edit view
+
 ### 0.0.5
 
 - Toggle rules on and off from the panel
