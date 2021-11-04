@@ -1,8 +1,9 @@
 import * as vscode from "vscode";
 import { OfCourseIStillLogYouTreeDataProvider } from "./data-provider";
 import { buildEditCommand } from "./edit-command";
+import { buildHtml } from "./edit-rule-html";
 import { LogColoringRule } from "./rule";
-import { LogYouSemanticTokensProvider } from "./semantic-provider";
+import { LogYouProvider } from "./provider";
 import { getTagNames } from "./tag-names";
 
 export function activate(context: vscode.ExtensionContext) {
@@ -40,22 +41,29 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   let legend = new vscode.SemanticTokensLegend(getTagNames(), []);
-  let semanticProvider = new LogYouSemanticTokensProvider(legend, dataProvider);
+  let provider = new LogYouProvider(legend, dataProvider);
 
   context.subscriptions.push(
     vscode.languages.registerDocumentSemanticTokensProvider(
       "logyou",
-      semanticProvider,
+      provider,
       legend
     )
   );
 
+  context.subscriptions.push(
+    vscode.languages.registerFoldingRangeProvider(
+      "logyou",
+      provider
+    )
+  );
+
   dataProvider.onRefresh = () => {
-    semanticProvider.refresh();
+    provider.refresh();
   };
 
   dataProvider.loadFromDisk().then(() => {
-    semanticProvider.refresh();
+    provider.refresh();
   });
 }
 
