@@ -29,6 +29,7 @@ export class OfCourseIStillLogYouTreeDataProvider
       false,
       () => {
         this.refresh();
+        this.saveToDisk();
         this.onRefresh();
       }
     );
@@ -72,6 +73,7 @@ export class OfCourseIStillLogYouTreeDataProvider
                 r.disabled || false,
                 () => {
                   this.refresh();
+                  this.saveToDisk();
                   this.onRefresh();
                 }
               )

@@ -37,6 +37,13 @@ export function buildHtml(rule: LogColoringRule) {
     (function() {
         const vscode = acquireVsCodeApi();
 
+        window.addEventListener('message', function (e) { 
+            if (!e && !e.data) return;
+            if (e.data.command === "disabledchanged") {
+                document.getElementById('ruledisabled').checked = e.data.newValue;
+            }
+        });
+
         document.getElementById('deletebutton').addEventListener('click', function () {
             vscode.postMessage({
                 command: 'delete'
