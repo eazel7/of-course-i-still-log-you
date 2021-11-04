@@ -41,6 +41,10 @@ So far, that it's absolutely basic! So it's much more now about missing features
 
 ## Release Notes
 
+### 0.0.5
+
+- Toggle rules on and off from the panel
+
 ### 0.0.4
 
 - More colors 

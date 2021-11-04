@@ -219,7 +219,7 @@ class LogYouSemanticTokensProvider
   }
 
   refresh() {
-    this._onDidChangeFoldingRanges.fire();
+    this._onDidChangeSemanticTokens.fire();
   }
 }
 
