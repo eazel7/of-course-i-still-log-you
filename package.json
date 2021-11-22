@@ -2,7 +2,7 @@
   "name": "of-course-i-still-log-you",
   "displayName": "Of course I still log you",
   "description": "Amazing log helper",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "engines": {
     "vscode": "^1.61.0"
   },
@@ -19,30 +19,6 @@
   ],
   "browser": "./dist/web/extension.js",
   "contributes": {
-    "configurationDefaults": {
-      "[logyou]": {
-        "editor.semanticHighlighting.enabled": true
-      }
-    },
-    "themes": [
-      {
-        "uiTheme": "vs",
-        "id": "logyouthemelight",
-        "label": "Log you - Light",
-        "path": "resources/logyoutheme-light-color-theme.json"
-      },
-      {
-        "uiTheme": "vs",
-        "id": "logyouthemedark",
-        "label": "Log you - Dark",
-        "path": "resources/logyoutheme-dark-color-theme.json"
-      }
-    ],
-    "languages": [
-      {
-        "id": "logyou"
-      }
-    ],
     "viewsContainers": {
       "activitybar": [
         {

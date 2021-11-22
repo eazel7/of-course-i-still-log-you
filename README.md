@@ -5,8 +5,6 @@ This extension allows users to colorize text editor lines based on different reg
 ## Features
 
 1. Colorize based on regular expressions
-     - Use the `logyou` document language
-2. Fold lines by consecutive matching (and non-matching) rules
 
 ## Requirements
 
@@ -14,19 +12,7 @@ None
 
 ## Extension Settings
 
-None so far, but you may want to customize a theme. In that case, this need to be present in the theme for this extension to work:
-
-```json
-{
-  ///...
-  "semanticHighlighting": true,
-  "semanticTokenColors": {
-    "tag1:logyou": "#ff0011",
-    "tag2:logyou": "#4a0095",
-    "tag3:logyou": "#a53700"
-}
-```
-It comes with two themes, one Dark and another one Light, based upon Dark and Light VS code default themes.
+Open up in the left panel the tab for it and add rules!
 
 ## Known Issues
 
@@ -40,6 +26,12 @@ So far, that it's absolutely basic! So it's much more now about missing features
 - To export the extracted information (like the captured groups) in a machine format (JSON)
 
 ## Release Notes
+
+### 0.0.8
+
+- Less colors, but better for now
+- No code folding for now, as the logyou language has been removed
+- Doens't provide or require setting a theme or a document type
 
 ### 0.0.7
 

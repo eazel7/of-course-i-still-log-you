@@ -27,9 +27,10 @@ export class OfCourseIStillLogYouTreeDataProvider
       `Rule ${this.lastId.toString()}`,
       "",
       false,
+      "red",
       () => {
-        this.refresh();
         this.saveToDisk();
+        this.refresh();
         this.onRefresh();
       }
     );
@@ -60,6 +61,7 @@ export class OfCourseIStillLogYouTreeDataProvider
               label: string;
               regexp: string;
               disabled?: boolean;
+              tag: string;
             }[];
           } = JSON.parse(asJson);
 
@@ -71,9 +73,10 @@ export class OfCourseIStillLogYouTreeDataProvider
                 r.label,
                 r.regexp,
                 r.disabled || false,
+                r.tag,
                 () => {
-                  this.refresh();
                   this.saveToDisk();
+                  this.refresh();
                   this.onRefresh();
                 }
               )

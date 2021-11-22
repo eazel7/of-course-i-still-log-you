@@ -1,10 +1,8 @@
 import * as vscode from "vscode";
 import { OfCourseIStillLogYouTreeDataProvider } from "./data-provider";
 import { buildEditCommand } from "./edit-command";
-import { buildHtml } from "./edit-rule-html";
 import { LogColoringRule } from "./rule";
 import { LogYouProvider } from "./provider";
-import { getTagNames } from "./tag-names";
 
 export function activate(context: vscode.ExtensionContext) {
   let dataProvider = new OfCourseIStillLogYouTreeDataProvider(context);
@@ -40,30 +38,44 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
-  let legend = new vscode.SemanticTokensLegend(getTagNames(), []);
-  let provider = new LogYouProvider(legend, dataProvider);
+  let provider = new LogYouProvider(dataProvider);
 
-  context.subscriptions.push(
-    vscode.languages.registerDocumentSemanticTokensProvider(
-      "logyou",
-      provider,
-      legend
-    )
-  );
+  function updateDecorations() {
+    for (let editor of vscode.window.visibleTextEditors) {
+      let decorators = provider.getDocumentDecorationList(editor.document);
 
-  context.subscriptions.push(
-    vscode.languages.registerFoldingRangeProvider(
-      "logyou",
-      provider
-    )
+      for (let decorator of decorators) {
+        editor.setDecorations(decorator.decoratorType, decorator.options);
+      }
+    }
+  }
+  vscode.window.onDidChangeVisibleTextEditors(() => {
+        updateDecorations();
+      }, null, context.subscriptions);
+
+  vscode.workspace.onDidChangeTextDocument(
+    (event) => {
+      let editor = vscode.window.visibleTextEditors.filter(e => e.document === event.document)[0];
+      if (!editor) {
+        return;
+      }
+      
+      let decorators = provider.getDocumentDecorationList(event.document);
+      
+      for (let decorator of decorators) {
+        editor.setDecorations(decorator.decoratorType, decorator.options);
+      }
+    },
+    null,
+    context.subscriptions
   );
 
   dataProvider.onRefresh = () => {
-    provider.refresh();
+    updateDecorations();
   };
 
   dataProvider.loadFromDisk().then(() => {
-    provider.refresh();
+    updateDecorations();
   });
 }
 

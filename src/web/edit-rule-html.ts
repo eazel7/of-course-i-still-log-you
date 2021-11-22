@@ -1,6 +1,9 @@
 import { LogColoringRule } from "./rule";
+import { getTagNames, getTag } from "./tags";
 
 export function buildHtml(rule: LogColoringRule) {
+  let tagNames = getTagNames();
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,16 +23,14 @@ export function buildHtml(rule: LogColoringRule) {
       } /></label></div>
       <div><label>Tag:
 <select id="selectedtag" value="${rule.tag}">
-<option value="tag1">Tag 1</option>
-<option value="tag2">Tag 2</option>
-<option value="tag3">Tag 3</option>
-<option value="tag4">Tag 4</option>
-<option value="tag5">Tag 5</option>
-<option value="tag6">Tag 6</option>
-<option value="tag7">Tag 7</option>
-<option value="tag8">Tag 8</option>
-<option value="tag9">Tag 9</option>
-<option value="invisible">Invisible</option>
+${tagNames
+  .map(
+    (t) =>
+      `<option ${rule.tag === t ? "selected " : ""} value=\"${t}\">${
+        getTag(t).friendlyName
+      }</option>`
+  )
+  .join("\n")}
 </select></label></div>
         <div><input type="button" id="savebutton" value="Save" /></div>
 <div><input type="button" id="deletebutton" value="Delete" /></div>
