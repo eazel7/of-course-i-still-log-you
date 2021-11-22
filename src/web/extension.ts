@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import { OfCourseIStillLogYouTreeDataProvider } from "./data-provider";
 import { buildEditCommand } from "./edit-command";
-import { buildHtml } from "./edit-rule-html";
 import { LogColoringRule } from "./rule";
 import { LogYouProvider } from "./provider";
 import { getTagNames } from "./tag-names";
@@ -52,10 +51,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.languages.registerFoldingRangeProvider(
-      "logyou",
-      provider
-    )
+    vscode.languages.registerFoldingRangeProvider("logyou", provider)
   );
 
   dataProvider.onRefresh = () => {

@@ -3,7 +3,10 @@ import { OfCourseIStillLogYouTreeDataProvider } from "./data-provider";
 import { buildHtml } from "./edit-rule-html";
 import { LogColoringRule } from "./rule";
 
-export function buildEditCommand(editViewsByRule: {[key: string]: vscode.WebviewPanel}, dataProvider: OfCourseIStillLogYouTreeDataProvider) {
+export function buildEditCommand(
+  editViewsByRule: { [key: string]: vscode.WebviewPanel },
+  dataProvider: OfCourseIStillLogYouTreeDataProvider
+) {
   return (rule: LogColoringRule) => {
     let existingView = editViewsByRule[rule.id];
     if (existingView !== undefined) {

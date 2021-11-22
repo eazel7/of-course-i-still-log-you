@@ -1,4 +1,3 @@
-import { match } from "assert";
 import * as vscode from "vscode";
 import { OfCourseIStillLogYouTreeDataProvider } from "./data-provider";
 import { LogColoringRule } from "./rule";
@@ -26,7 +25,7 @@ export class LogYouProvider
     token: vscode.CancellationToken
   ): vscode.ProviderResult<vscode.FoldingRange[]> {
     let foldingRanges: vscode.FoldingRange[] = [];
-    let rulesByLine : (LogColoringRule | null)[]  = [];
+    let rulesByLine: (LogColoringRule | null)[] = [];
 
     let regexps = this.dataProvider.rules
       .filter((r) => !!r.regexp)
@@ -54,8 +53,14 @@ export class LogYouProvider
 
     for (let i = 1; i < rulesByLine.length; i++) {
       if (rulesByLine[i - 1] !== rulesByLine[i]) {
-        if (i - firstLine> 0) {
-          foldingRanges.push(new vscode.FoldingRange(firstLine, i - 1, vscode.FoldingRangeKind.Region));
+        if (i - firstLine > 0) {
+          foldingRanges.push(
+            new vscode.FoldingRange(
+              firstLine,
+              i - 1,
+              vscode.FoldingRangeKind.Region
+            )
+          );
         }
 
         firstLine = i;
