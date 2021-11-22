@@ -29,6 +29,7 @@ export function buildEditCommand(editViewsByRule: {[key: string]: vscode.Webview
             rule.label = e.label;
             rule.regexp = e.regexp;
             rule.tag = e.selectedtag;
+            rule.highlightFullLine = e.highlightFullLine;
             rule.disabled = e.disabled;
             rule.update();
             break;

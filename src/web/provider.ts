@@ -18,8 +18,8 @@ export class LogYouProvider {
       .filter((r) => !r.disabled)
       .map((r) => ({
         rule: r,
-        regexp: RegExp(r.regexp),
-        decorationType: getTag(r.tag).decoratorType
+        regexp: new RegExp(r.regexp, !r.highlightFullLine ? "g" : ""),
+        decorationType: getTag(r.tag).decoratorType,
       }));
     let list: {
       decoratorType: vscode.TextEditorDecorationType;
@@ -30,19 +30,35 @@ export class LogYouProvider {
       let tag = getTag(tagName);
       list.push({
         decoratorType: tag.decoratorType,
-        options: []
+        options: [],
       });
     }
 
     for (let i = 0; i < document.lineCount; i++) {
       for (let j = 0; j < regexps.length; j++) {
-        if (regexps[j].regexp.test(document.lineAt(i).text)) {
-          let decorator = list.filter(d => d.decoratorType === regexps[j].decorationType)[0];
+        let decorator = list.filter(
+          (d) => d.decoratorType === regexps[j].decorationType
+        )[0];
+        if (regexps[j].rule.highlightFullLine) {
+          let result = regexps[j].regexp.test(document.lineAt(i).text);
+          if (result) {
+            decorator.options.push({
+              range: document.lineAt(i).range,
+            });
 
-          decorator.options.push({
-            range: document.lineAt(i).range,
-          });
-          break;
+            break;
+          }
+        } else {
+          let results = document.lineAt(i).text.matchAll(regexps[j].regexp);
+          
+          for (let r of results) {
+            decorator.options.push({
+              range: new vscode.Range(
+                new vscode.Position(i, r.index as number),
+                new vscode.Position(i, (r.index as number) + r[0].length)
+              ),
+            });
+          }
         }
       }
     }

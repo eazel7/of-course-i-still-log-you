@@ -11,7 +11,7 @@ function makeDecorator(overviewRulerColor: string, borderColor: string, darkBack
 } {
   return {
       decoratorType: vscode.window.createTextEditorDecorationType({
-      isWholeLine: true,
+      isWholeLine: false,
       rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
       overviewRulerColor: overviewRulerColor,
       overviewRulerLane: vscode.OverviewRulerLane.Full,

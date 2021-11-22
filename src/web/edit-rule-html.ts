@@ -21,6 +21,9 @@ export function buildHtml(rule: LogColoringRule) {
       <div><label>Disable: <input type="checkbox" id="ruledisabled" ${
         rule.disabled ? "checked" : ""
       } /></label></div>
+      <div><label>Full line: <input type="checkbox" id="rulefullline" ${
+        rule.highlightFullLine ? "checked" : ""
+      } /></label></div>
       <div><label>Tag:
 <select id="selectedtag" value="${rule.tag}">
 ${tagNames
@@ -55,11 +58,13 @@ ${tagNames
           let label = document.getElementById('rulelabel').value;
           let regexp = document.getElementById('ruleregexp').value;
           let ruledisabled = document.getElementById('ruledisabled').checked;
+          let rulefullline = document.getElementById('rulefullline').checked;
           let selectedtag = document.getElementById('selectedtag').value;
             vscode.postMessage({
                 command: 'save',
                 label: label,
                 regexp: regexp,
+                highlightFullLine: rulefullline,
                 selectedtag: selectedtag,
   disabled: ruledisabled
             });

@@ -28,6 +28,7 @@ export class OfCourseIStillLogYouTreeDataProvider
       "",
       false,
       "red",
+      true,
       () => {
         this.saveToDisk();
         this.refresh();
@@ -62,6 +63,7 @@ export class OfCourseIStillLogYouTreeDataProvider
               regexp: string;
               disabled?: boolean;
               tag: string;
+              highlightFullLine: boolean;
             }[];
           } = JSON.parse(asJson);
 
@@ -74,6 +76,7 @@ export class OfCourseIStillLogYouTreeDataProvider
                 r.regexp,
                 r.disabled || false,
                 r.tag,
+                r.highlightFullLine,
                 () => {
                   this.saveToDisk();
                   this.refresh();
@@ -109,6 +112,7 @@ export class OfCourseIStillLogYouTreeDataProvider
                 label: r.label,
                 tag: r.tag,
                 disabled: r.disabled,
+                highlightFullLine: r.highlightFullLine 
               })),
             }),
             "utf8"
