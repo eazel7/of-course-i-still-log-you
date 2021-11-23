@@ -23,6 +23,7 @@ export class OfCourseIStillLogYouTreeDataProvider
 
   addNewEntry() {
     let rule = new LogColoringRule(
+      // yeah, we're using an ID
       (++this.lastId).toString(),
       `Rule ${this.lastId.toString()}`,
       "",
@@ -45,11 +46,7 @@ export class OfCourseIStillLogYouTreeDataProvider
   loadFromDisk(): Thenable<void> {
     return (async () => {
       try {
-        let baseUri = this.context.storageUri as Uri;
-        await vscode.workspace.fs.createDirectory(baseUri);
-        let settingsUri = baseUri.with({
-          path: baseUri.path + "/settings.json",
-        });
+        let settingsUri = await this.getSettingsUri();
 
         let contents = await vscode.workspace.fs.readFile(settingsUri);
         let asJson = new TextDecoder().decode(contents);
@@ -95,26 +92,28 @@ export class OfCourseIStillLogYouTreeDataProvider
   saveToDisk(): Thenable<void> {
     if (this.context.storageUri !== undefined) {
       return (async () => {
-        let baseUri = this.context.storageUri as Uri;
-        await vscode.workspace.fs.createDirectory(baseUri);
-        let settingsUri = baseUri.with({
-          path: baseUri.path + "/settings.json",
-        });
+        let settingsUri = await this.getSettingsUri();
 
         await vscode.workspace.fs.writeFile(
           settingsUri,
           Buffer.from(
-            JSON.stringify({
-              lastId: this.lastId,
-              rules: this.rules.map((r) => ({
-                id: r.id,
-                regexp: r.regexp,
-                label: r.label,
-                tag: r.tag,
-                disabled: r.disabled,
-                highlightFullLine: r.highlightFullLine 
-              })),
-            }),
+            JSON.stringify(
+              {
+                lastId: this.lastId,
+                rules: this.rules.map((r) => ({
+                  id: r.id,
+                  regexp: r.regexp,
+                  label: r.label,
+                  tag: r.tag,
+                  disabled: r.disabled,
+                  highlightFullLine: r.highlightFullLine,
+                })),
+              },
+              // let's use a pretty JSON format
+              // so it's easier to copy/paste/edit
+              null,
+              2
+            ),
             "utf8"
           )
         );
@@ -124,6 +123,13 @@ export class OfCourseIStillLogYouTreeDataProvider
     } else {
       return Promise.resolve();
     }
+  }
+  async getSettingsUri(): Promise<Uri> {
+    let baseUri = this.context.storageUri as Uri;
+    await vscode.workspace.fs.createDirectory(baseUri);
+    return baseUri.with({
+      path: baseUri.path + "/settings.json",
+    });
   }
   private context: vscode.ExtensionContext;
 

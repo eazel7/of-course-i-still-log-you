@@ -16,7 +16,7 @@ Open up in the left panel the tab for it and add rules!
 
 ## Known Issues
 
-So far, that it's absolutely basic! So it's much more now about missing features
+- You need to restart the extension if you're editing the rules JSON to get the changes applied
 
 ## Missing features
 
@@ -26,6 +26,14 @@ So far, that it's absolutely basic! So it's much more now about missing features
 - To export the extracted information (like the captured groups) in a machine format (JSON)
 
 ## Release Notes
+
+### 0.0.9
+
+- Icons instead of text
+- Rules reordering
+- Open rules JSON (not watching for changes thou, need to restart)
+- Prettier edit panel
+- Validate regexps before running
 
 ### 0.0.8
 

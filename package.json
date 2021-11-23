@@ -2,20 +2,15 @@
   "name": "of-course-i-still-log-you",
   "displayName": "Of course I still log you",
   "description": "Amazing log helper",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "engines": {
     "vscode": "^1.61.0"
   },
   "categories": [
-    "Other",
-    "Programming Languages",
-    "Formatters",
-    "Themes",
     "Visualization"
   ],
   "activationEvents": [
-    "onView:logyouview",
-    "onLanguage:logyou"
+    "*"
   ],
   "browser": "./dist/web/extension.js",
   "contributes": {
@@ -44,24 +39,38 @@
       {
         "command": "logyouview.add",
         "title": "Add",
-        "icon": {
-          "light": "resources/light/add.svg",
-          "dark": "resources/dark/add.svg"
-        }
+        "icon": "$(add)"
       },
       {
         "command": "logyouview.edit",
-        "title": "Edit"
+        "title": "Edit",
+        "icon": "$(edit)"
       },
       {
         "command": "logyouview.toggleDisabled",
-        "title": "Toggle"
+        "title": "Toggle",
+        "icon": "$(star-half)"
+      },
+      {
+        "command": "logyouview.openjson",
+        "title": "Rules as JSON",
+        "icon": "$(json)"
+      },
+      {
+        "command": "logyouview.moveUp",
+        "title": "Edit",
+        "icon": "$(arrow-up)"
       }
     ],
     "menus": {
       "view/title": [
         {
           "command": "logyouview.add",
+          "when": "view == logyouview",
+          "group": "navigation"
+        },
+        {
+          "command": "logyouview.openjson",
           "when": "view == logyouview",
           "group": "navigation"
         }
@@ -74,6 +83,12 @@
         },
         {
           "command": "logyouview.toggleDisabled",
+          "when": "view == logyouview",
+          "group": "inline"
+        },
+        {
+          "command": "logyouview.moveUp",
+          "when": "view == logyouview",
           "group": "inline"
         }
       ]

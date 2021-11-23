@@ -37,6 +37,18 @@ export function activate(context: vscode.ExtensionContext) {
       }
     )
   );
+  context.subscriptions.push(
+    vscode.commands.registerCommand("logyouview.openjson", async () => {
+      let settingsUri = await provider.dataProvider.getSettingsUri();
+      try {
+        await vscode.workspace.fs.stat(settingsUri);
+      } catch {
+        await provider.dataProvider.saveToDisk();
+      }
+
+      await vscode.commands.executeCommand("vscode.open", settingsUri);
+    })
+  );
 
   let provider = new LogYouProvider(dataProvider);
 
@@ -49,19 +61,42 @@ export function activate(context: vscode.ExtensionContext) {
       }
     }
   }
-  vscode.window.onDidChangeVisibleTextEditors(() => {
-        updateDecorations();
-      }, null, context.subscriptions);
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "logyouview.moveUp",
+      (rule: LogColoringRule) => {
+        let previousIndex = dataProvider.rules.indexOf(rule) - 1;
+        if (previousIndex === -1) {
+          return;
+        }
+
+        let previous = dataProvider.rules[previousIndex];
+
+        dataProvider.rules.splice(previousIndex, 1, rule, previous);
+        dataProvider.rules.splice(dataProvider.rules.lastIndexOf(rule), 1);
+        dataProvider.saveToDisk().then(() => updateDecorations());
+      }
+    )
+  );
+  vscode.window.onDidChangeVisibleTextEditors(
+    () => {
+      updateDecorations();
+    },
+    null,
+    context.subscriptions
+  );
 
   vscode.workspace.onDidChangeTextDocument(
     (event) => {
-      let editor = vscode.window.visibleTextEditors.filter(e => e.document === event.document)[0];
+      let editor = vscode.window.visibleTextEditors.filter(
+        (e) => e.document === event.document
+      )[0];
       if (!editor) {
         return;
       }
-      
+
       let decorators = provider.getDocumentDecorationList(event.document);
-      
+
       for (let decorator of decorators) {
         editor.setDecorations(decorator.decoratorType, decorator.options);
       }

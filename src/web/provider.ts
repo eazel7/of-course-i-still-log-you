@@ -14,7 +14,7 @@ export class LogYouProvider {
     options: vscode.DecorationOptions[];
   }[] {
     let regexps = this.dataProvider.rules
-      .filter((r) => !!r.regexp)
+      .filter((r) => r.hasValidRegexp())
       .filter((r) => !r.disabled)
       .map((r) => ({
         rule: r,
@@ -29,6 +29,11 @@ export class LogYouProvider {
 
     for (let tagName of getTagNames()) {
       let tag = getTag(tagName);
+
+      // if VS code doesn't receive the decorator type
+      // it does nothing with it then
+      // we add them all of them with no matches at least
+      // so if there are no matches VS code removes the old ones
       list.push({
         decoratorType: tag.decoratorType,
         options: [],
@@ -42,8 +47,11 @@ export class LogYouProvider {
       for (let j = 0; j < regexps.length; j++) {
         if (regexps[j].rule.highlightFullLine) {
           let decorator = list.filter(
+            // won't repeat colors, so each 'tag' has two decoration types
+            // full line here
             (d) => d.decoratorType === regexps[j].fullLineDecorationType
           )[0];
+
           let result = regexps[j].regexp.test(document.lineAt(i).text);
           if (result) {
             decorator.options.push({
@@ -54,6 +62,7 @@ export class LogYouProvider {
           }
         } else {
           let decorator = list.filter(
+            // not full line
             (d) => d.decoratorType === regexps[j].decorationType
           )[0];
           let results = document.lineAt(i).text.matchAll(regexps[j].regexp);

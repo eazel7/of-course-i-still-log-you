@@ -1,12 +1,10 @@
 import * as vscode from "vscode";
 
 export class LogColoringRule extends vscode.TreeItem {
+  id: string;
   onUpdate: () => void;
   disabled: boolean;
   highlightFullLine: boolean;
-  update() {
-    this.onUpdate();
-  }
   regexp: string;
   tag: string;
 
@@ -28,6 +26,19 @@ export class LogColoringRule extends vscode.TreeItem {
     this.highlightFullLine = highlightFullLine;
     this.disabled = disabled;
   }
+  hasValidRegexp(): boolean {
+    try {
+      if (this.regexp.trim() === "") {
+        return false;
+      }
 
-  id: string;
+      new RegExp(this.regexp);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  update() {
+    this.onUpdate();
+  }
 }
