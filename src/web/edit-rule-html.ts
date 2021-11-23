@@ -1,7 +1,7 @@
 import { LogColoringRule } from "./rule";
 import { getTagNames, getTag } from "./tags";
 
-export function buildHtml(rule: LogColoringRule) {
+export function buildHtml(rule: LogColoringRule, codiconCss: string) {
   let tagNames = getTagNames();
 
   return `<!DOCTYPE html>
@@ -9,7 +9,27 @@ export function buildHtml(rule: LogColoringRule) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cat Coding</title>
+    <title>Of course I still log you</title>
+    <link rel="stylesheet" type="text/css" href="${codiconCss}" />
+    <style>
+    label {
+        display: block;
+        margin-bottom: 1em;
+    }
+
+    input[type=text], select {
+      display: block;
+      margin-top: 0.3em;
+      width: 100%;
+      border: 1px solid;
+      padding: 4px;
+    }
+
+    input[type=checkbox] {
+      float: left;
+      height: 0.8em;
+    }
+    </style>
 </head>
 <body>
       <div><label>Rule name: <input type="text" id="rulelabel" value="${
@@ -35,8 +55,28 @@ ${tagNames
   )
   .join("\n")}
 </select></label></div>
-        <div><input type="button" id="savebutton" value="Save" /></div>
-<div><input type="button" id="deletebutton" value="Delete" /></div>
+<div><a href="javascript:" id="savebutton" style="
+border: 1px solid;
+padding: 4px;
+display: block;
+text-decoration: none;
+line-height: 2.2em;
+vertical-align: top;
+"><div class='codicon codicon-save' style="
+display: inline;
+vertical-align: text-bottom;
+margin: 0.3em;"></div>Save</a></div>
+<div><a href="javascript:" id="deletebutton" style="
+border: 1px solid;
+padding: 4px;
+display: block;
+text-decoration: none;
+line-height: 2.2em;
+vertical-align: top;
+"><div class='codicon codicon-remove' style="
+display: inline;
+vertical-align: text-bottom;
+margin: 0.3em;"></div>Remove</a></div>
     <script>
     (function() {
         const vscode = acquireVsCodeApi();

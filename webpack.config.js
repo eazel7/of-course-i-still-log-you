@@ -11,6 +11,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const CopyPlugin = require('copy-webpack-plugin');
 
 /** @type WebpackConfig */
 const webExtensionConfig = {
@@ -52,6 +53,27 @@ const webExtensionConfig = {
 		new webpack.ProvidePlugin({
 			process: 'process/browser', // provide a shim for the global `process` variable
 		}),
+		new CopyPlugin({
+			patterns: [{
+				from: require('path').join('node_modules', '@vscode', 'codicons', 'dist', 'codicon.css'),
+				to: require('path').join('codicon.css'),
+				toType: 'file'
+			}],
+		}),
+		new CopyPlugin({
+			patterns: [{
+				from: require('path').join('node_modules', '@vscode', 'codicons', 'dist', 'codicon.ttf'),
+				to: require('path').join('codicon.ttf'),
+				toType: 'file'
+			}],
+		}),
+		new CopyPlugin({
+			patterns: [{
+				from: require('path').join('node_modules', '@vscode', 'codicons', 'dist', 'codicon.svg'),
+				to: require('path').join('codicon.ttf'),
+				toType: 'file'
+			}],
+		})
 	],
 	externals: {
 		'vscode': 'commonjs vscode', // ignored because it doesn't exist
@@ -62,4 +84,4 @@ const webExtensionConfig = {
 	devtool: 'nosources-source-map' // create a source map that points to the original source file
 };
 
-module.exports = [ webExtensionConfig ];
+module.exports = [webExtensionConfig];

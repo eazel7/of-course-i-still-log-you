@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "logyouview.edit",
-      buildEditCommand(editViewsByRule, dataProvider)
+      buildEditCommand(editViewsByRule, dataProvider, context)
     )
   );
   context.subscriptions.push(

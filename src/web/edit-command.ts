@@ -1,9 +1,10 @@
 import * as vscode from "vscode";
+import { Uri } from "vscode";
 import { OfCourseIStillLogYouTreeDataProvider } from "./data-provider";
 import { buildHtml } from "./edit-rule-html";
 import { LogColoringRule } from "./rule";
 
-export function buildEditCommand(editViewsByRule: {[key: string]: vscode.WebviewPanel}, dataProvider: OfCourseIStillLogYouTreeDataProvider) {
+export function buildEditCommand(editViewsByRule: {[key: string]: vscode.WebviewPanel}, dataProvider: OfCourseIStillLogYouTreeDataProvider, context: vscode.ExtensionContext) {
   return (rule: LogColoringRule) => {
     let existingView = editViewsByRule[rule.id];
     if (existingView !== undefined) {
@@ -14,10 +15,14 @@ export function buildEditCommand(editViewsByRule: {[key: string]: vscode.Webview
         "Edit rule",
         vscode.ViewColumn.Two,
         {
+          localResourceRoots: [
+            Uri.joinPath(context.extensionUri, 'dist', 'web')
+          ],
           enableScripts: true,
           retainContextWhenHidden: true,
         }
       ));
+      let codiconCss = view.webview.asWebviewUri(Uri.joinPath(context.extensionUri, 'dist', 'web', "codicon.css"));
 
       view.webview.onDidReceiveMessage((e) => {
         if (!e) {
@@ -44,7 +49,7 @@ export function buildEditCommand(editViewsByRule: {[key: string]: vscode.Webview
         delete editViewsByRule[rule.id];
       });
 
-      view.webview.html = buildHtml(rule);
+      view.webview.html = buildHtml(rule, codiconCss.toString());
     }
   };
 }

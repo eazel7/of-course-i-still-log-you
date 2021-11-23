@@ -2,19 +2,27 @@ import * as vscode from "vscode";
 
 export interface LogYouTag {
   tagName: string;
+  fullLineDecoratorType: vscode.TextEditorDecorationType;
   decoratorType: vscode.TextEditorDecorationType;
   friendlyName: string;
 }
-function makeDecorator(overviewRulerColor: string, borderColor: string, darkBackgroundColor: string, lightBackgroundColor: string, friendlyName: string) : {
+function makeDecorator(
+  overviewRulerColor: string,
+  borderColor: string,
+  darkBackgroundColor: string,
+  lightBackgroundColor: string,
+  friendlyName: string
+): {
   decoratorType: vscode.TextEditorDecorationType;
+  fullLineDecoratorType: vscode.TextEditorDecorationType;
   friendlyName: string;
 } {
   return {
-      decoratorType: vscode.window.createTextEditorDecorationType({
+    decoratorType: vscode.window.createTextEditorDecorationType({
       isWholeLine: false,
       rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
       overviewRulerColor: overviewRulerColor,
-      overviewRulerLane: vscode.OverviewRulerLane.Full,
+      overviewRulerLane: vscode.OverviewRulerLane.Left,
       dark: {
         backgroundColor: darkBackgroundColor,
       },
@@ -25,20 +33,45 @@ function makeDecorator(overviewRulerColor: string, borderColor: string, darkBack
       borderWidth: "1px",
       borderStyle: "solid",
     }),
-    friendlyName: friendlyName
+    fullLineDecoratorType: vscode.window.createTextEditorDecorationType({
+      isWholeLine: true,
+      rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
+      overviewRulerColor: overviewRulerColor,
+      overviewRulerLane: vscode.OverviewRulerLane.Center | vscode.OverviewRulerLane.Right,
+      dark: {
+        backgroundColor: darkBackgroundColor,
+      },
+      light: {
+        backgroundColor: lightBackgroundColor,
+      }
+    }),
+    friendlyName: friendlyName,
   };
 }
 
 const tags: {
   [key: string]: {
+    fullLineDecoratorType: vscode.TextEditorDecorationType;
     decoratorType: vscode.TextEditorDecorationType;
     friendlyName: string;
   };
 } = {
   red: makeDecorator("#ff000090", "#ff0000", "#1f0a0f90", "#fce3e990", "Red"),
-  green: makeDecorator("#00ff0090", "#00ff00", "#112c1990", "#d5fbe090", "Green"),
+  green: makeDecorator(
+    "#00ff0090",
+    "#00ff00",
+    "#112c1990",
+    "#d5fbe090",
+    "Green"
+  ),
   blue: makeDecorator("#0000ff90", "#0000ff", "#181f3590", "#d2d9ef90", "Blue"),
-  violet: makeDecorator("#ff00ff90", "#ff00ff", "#26183590", "#e9d2ef90", "Violet")
+  violet: makeDecorator(
+    "#ff00ff90",
+    "#ff00ff",
+    "#26183590",
+    "#e9d2ef90",
+    "Violet"
+  ),
 };
 
 export function getTagNames() {
@@ -49,6 +82,7 @@ export function getTag(tagName: string): LogYouTag {
   return {
     tagName: tagName,
     decoratorType: tags[tagName].decoratorType,
+    fullLineDecoratorType: tags[tagName].fullLineDecoratorType,
     friendlyName: tags[tagName].friendlyName,
   };
 }
