@@ -10,7 +10,7 @@
     "Visualization"
   ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "browser": "./dist/web/extension.js",
   "contributes": {
