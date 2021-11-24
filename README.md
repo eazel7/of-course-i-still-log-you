@@ -27,6 +27,10 @@ Open up in the left panel the tab for it and add rules!
 
 ## Release Notes
 
+### 0.0.10
+
+- rules can be case sensitive or insensitive
+
 ### 0.0.9
 
 - Icons instead of text

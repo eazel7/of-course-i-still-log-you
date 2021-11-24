@@ -18,7 +18,7 @@ export class LogYouProvider {
       .filter((r) => !r.disabled)
       .map((r) => ({
         rule: r,
-        regexp: new RegExp(r.regexp, !r.highlightFullLine ? "g" : ""),
+        regexp: new RegExp(r.regexp, (!r.highlightFullLine ? "g" : "") + (r.caseInsensitive ? "i" : "")),
         fullLineDecorationType: getTag(r.tag).fullLineDecoratorType,
         decorationType: getTag(r.tag).decoratorType,
       }));

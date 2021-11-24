@@ -36,6 +36,7 @@ export function buildEditCommand(editViewsByRule: {[key: string]: vscode.Webview
             rule.tag = e.selectedtag;
             rule.highlightFullLine = e.highlightFullLine;
             rule.disabled = e.disabled;
+            rule.caseInsensitive = e.caseInsensitive;
             rule.update();
             break;
           case "delete":

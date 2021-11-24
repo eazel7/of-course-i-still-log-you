@@ -1,12 +1,26 @@
 import * as vscode from "vscode";
 
+/**
+ * Log coloring rule
+ */
 export class LogColoringRule extends vscode.TreeItem {
+  /**
+   * Identification number,
+   * required for TreeView API mostly
+   */
   id: string;
-  onUpdate: () => void;
+  onUpdate: () => void = () => {};
   disabled: boolean;
   highlightFullLine: boolean;
+  /**
+   * String representation of a regular expression
+   */
   regexp: string;
+  /**
+   * Log coloring tag to use, see "tags.ts"
+   */
   tag: string;
+  caseInsensitive: boolean;
 
   constructor(
     id: string,
@@ -15,17 +29,20 @@ export class LogColoringRule extends vscode.TreeItem {
     disabled: boolean,
     tag: string,
     highlightFullLine: boolean,
+    caseInsensitive: boolean,
     onUpdate: () => void
   ) {
     super(label, vscode.TreeItemCollapsibleState.None);
 
     this.id = id;
     this.regexp = regexp;
-    this.onUpdate = onUpdate;
+    this.disabled = disabled;
     this.tag = tag;
     this.highlightFullLine = highlightFullLine;
-    this.disabled = disabled;
+    this.caseInsensitive = caseInsensitive;
+    this.onUpdate = onUpdate;
   }
+
   hasValidRegexp(): boolean {
     try {
       if (this.regexp.trim() === "") {
@@ -38,6 +55,10 @@ export class LogColoringRule extends vscode.TreeItem {
       return false;
     }
   }
+
+  /**
+   * Triggers the onUpdate listener
+   */
   update() {
     this.onUpdate();
   }

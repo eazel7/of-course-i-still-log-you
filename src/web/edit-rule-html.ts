@@ -91,6 +91,9 @@ export function buildHtml(rule: LogColoringRule, codiconCss: string) {
       <div><label>Full line: <input class="flipswitch" type="checkbox" id="rulefullline" ${
         rule.highlightFullLine ? "checked" : ""
       } /></label></div>
+      <div><label>Case insensitive: <input class="flipswitch" type="checkbox" id="rulecaseinsensitive" ${
+        rule.caseInsensitive ? "checked" : ""
+      } /></label></div>
       <div><label>Tag:
 <select id="selectedtag" value="${rule.tag}">
 ${tagNames
@@ -146,14 +149,16 @@ margin: 0.3em;"></div>Remove</a></div>
           let regexp = document.getElementById('ruleregexp').value;
           let ruledisabled = !document.getElementById('ruledisabled').checked;
           let rulefullline = document.getElementById('rulefullline').checked;
+          let rulecaseinsensitive = document.getElementById('rulecaseinsensitive').checked;
           let selectedtag = document.getElementById('selectedtag').value;
             vscode.postMessage({
                 command: 'save',
                 label: label,
                 regexp: regexp,
                 highlightFullLine: rulefullline,
+                caseInsensitive: rulecaseinsensitive,
                 selectedtag: selectedtag,
-  disabled: ruledisabled
+                disabled: ruledisabled
             });
           });
     })();

@@ -37,13 +37,14 @@ function makeDecorator(
       isWholeLine: true,
       rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
       overviewRulerColor: overviewRulerColor,
-      overviewRulerLane: vscode.OverviewRulerLane.Center | vscode.OverviewRulerLane.Right,
+      overviewRulerLane:
+        vscode.OverviewRulerLane.Center | vscode.OverviewRulerLane.Right,
       dark: {
         backgroundColor: darkBackgroundColor,
       },
       light: {
         backgroundColor: lightBackgroundColor,
-      }
+      },
     }),
     friendlyName: friendlyName,
   };

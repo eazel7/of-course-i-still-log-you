@@ -6,11 +6,23 @@ import { LogColoringRule } from "./rule";
 export class OfCourseIStillLogYouTreeDataProvider
   implements vscode.TreeDataProvider<LogColoringRule>
 {
+  /**
+   * Turns a rule on or off, then informs the update
+   * @param rule Rule to toggle
+   */
   toggleDisabled(rule: LogColoringRule) {
     rule.disabled = !rule.disabled;
+    this.saveToDisk().then(() => {
+      this.refresh();
+      this.onRefresh();
+    });
     rule.update();
   }
 
+  /**
+   * Removes a rule, then informs the update
+   * @param rule Rule to toggle
+   */
   deleteRule(rule: LogColoringRule) {
     this.rules.splice(this.rules.indexOf(rule), 1);
     this.saveToDisk().then(() => {
@@ -61,6 +73,7 @@ export class OfCourseIStillLogYouTreeDataProvider
               disabled?: boolean;
               tag: string;
               highlightFullLine: boolean;
+              caseInsensitive: boolean;
             }[];
           } = JSON.parse(asJson);
 
@@ -74,6 +87,7 @@ export class OfCourseIStillLogYouTreeDataProvider
                 r.disabled || false,
                 r.tag,
                 r.highlightFullLine,
+                r.caseInsensitive,
                 () => {
                   this.saveToDisk();
                   this.refresh();
@@ -107,6 +121,7 @@ export class OfCourseIStillLogYouTreeDataProvider
                   tag: r.tag,
                   disabled: r.disabled,
                   highlightFullLine: r.highlightFullLine,
+                  caseInsensitive: r.caseInsensitive
                 })),
               },
               // let's use a pretty JSON format
