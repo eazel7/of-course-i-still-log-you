@@ -42,6 +42,7 @@ export class OfCourseIStillLogYouTreeDataProvider
       false,
       "red",
       true,
+      false,
       () => {
         this.saveToDisk();
         this.refresh();
