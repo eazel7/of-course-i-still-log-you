@@ -2,6 +2,8 @@
 
 This extension allows users to colorize text editor lines based on different regular expressions. There are plans for more, for helping in general with the more-than-daily task that is analyzing, extracting, filtering a log file.
 
+![Demo](https://github.com/eazel7/of-course-i-still-log-you/blob/master/demo.gif?raw=true)
+
 ## Features
 
 1. Colorize based on regular expressions
@@ -26,6 +28,10 @@ Open up in the left panel the tab for it and add rules!
 - To export the extracted information (like the captured groups) in a machine format (JSON)
 
 ## Release Notes
+
+### 0.0.12
+
+- Demo gif!
 
 ### 0.0.11
 
