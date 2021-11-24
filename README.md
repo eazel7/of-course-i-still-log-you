@@ -27,6 +27,11 @@ Open up in the left panel the tab for it and add rules!
 
 ## Release Notes
 
+### 0.0.11
+
+- Export lines button
+- Export matching lines to readonly document
+
 ### 0.0.10
 
 - rules can be case sensitive or insensitive

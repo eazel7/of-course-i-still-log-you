@@ -61,6 +61,63 @@ export function activate(context: vscode.ExtensionContext) {
       }
     }
   }
+
+  const tempDocuments: string[] = [];
+
+  const logyouScheme = "logyou";
+  const logyouReadonlyProvider = new (class
+    implements vscode.TextDocumentContentProvider
+  {
+    // emitter and its event
+    onDidChangeEmitter = new vscode.EventEmitter<vscode.Uri>();
+    onDidChange = this.onDidChangeEmitter.event;
+
+    provideTextDocumentContent(
+      uri: vscode.Uri,
+      token: vscode.CancellationToken
+    ): vscode.ProviderResult<string> {
+      return new Promise((resolve, reject) => {
+        vscode.workspace
+          .openTextDocument(uri.with({ scheme: uri.fragment, fragment: "" }))
+          .then(
+            (doc) => {
+              let lines = provider.getDocumentLinesForExport(doc);
+
+              resolve(lines);
+            },
+            () => reject()
+          );
+      });
+    }
+  })();
+
+  context.subscriptions.push(
+    vscode.workspace.registerTextDocumentContentProvider(
+      logyouScheme,
+      logyouReadonlyProvider
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("logyouview.exportLines", async () => {
+      const editor = vscode.window.activeTextEditor;
+
+      if (editor === undefined) {
+        return;
+      }
+
+      const uri = editor.document.uri.with({
+        scheme: logyouScheme,
+        fragment: editor.document.uri.scheme,
+      });
+
+      const doc = await vscode.workspace.openTextDocument(uri); // calls back into the provider
+      await vscode.window.showTextDocument(doc, {
+        preview: false,
+      });
+    })
+  );
+
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "logyouview.moveUp",

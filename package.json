@@ -2,7 +2,7 @@
   "name": "of-course-i-still-log-you",
   "displayName": "Of course I still log you",
   "description": "Amazing log helper",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "engines": {
     "vscode": "^1.61.0"
   },
@@ -60,12 +60,22 @@
         "command": "logyouview.moveUp",
         "title": "Edit",
         "icon": "$(arrow-up)"
+      },
+      {
+        "command": "logyouview.exportLines",
+        "title": "Export lines",
+        "icon": "$(export)"
       }
     ],
     "menus": {
       "view/title": [
         {
           "command": "logyouview.add",
+          "when": "view == logyouview",
+          "group": "navigation"
+        },
+        {
+          "command": "logyouview.exportLines",
           "when": "view == logyouview",
           "group": "navigation"
         },
