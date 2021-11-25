@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="128"
+   height="128"
+   viewBox="0 0 33.866667 33.866667"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20, custom)"
+   sodipodi:docname="extension-icon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     inkscape:zoom="5.8867564"
+     inkscape:cx="44.082"
+     inkscape:cy="49.093249"
+     inkscape:window-width="2560"
+     inkscape:window-height="1020"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g6967" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g6967"
+       transform="matrix(1.1779993,0,0,1.1779993,-0.34201001,-1.4383623)">
+      <g
+         id="g20714"
+         transform="matrix(2.252134,0,0,2.252134,1.2172164,0.35632939)">
+        <path
+           id="rect846"
+           style="fill:#ff0000;stroke:#800000;stroke-width:0.653395"
+           d="M 5.8820201,4.8422764 C 6.2374085,3.8616666 7.5114032,3.1809018 8.2044485,4.140169 8.8974937,5.0994362 8.8380319,6.2539159 5.5769356,10.195725 5.8117241,8.6662542 1.976417,6.0162518 3.6180708,4.1262785 5.2597247,2.2363053 5.7207454,4.0914705 5.8820201,4.8422764 Z"
+           sodipodi:nodetypes="czczc" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-weight:normal;font-size:9.86209px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.246554"
+           x="0.53926885"
+           y="9.4168425"
+           id="text4824"><tspan
+             sodipodi:role="line"
+             id="tspan4822"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Carlito;-inkscape-font-specification:'Carlito Bold';stroke-width:0.246554"
+             x="0.53926885"
+             y="9.4168425">[  ]</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>
