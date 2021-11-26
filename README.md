@@ -29,6 +29,10 @@ Open up in the left panel the tab for it and add rules!
 
 ## Release Notes
 
+### 0.0.14
+
+- Bugfix: refresh of exported document
+
 ### 0.0.13
 
 - Extension icon [❤️]

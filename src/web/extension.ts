@@ -62,15 +62,21 @@ export function activate(context: vscode.ExtensionContext) {
     }
   }
 
-  const tempDocuments: string[] = [];
-
   const logyouScheme = "logyou";
+  const refreshDocument = new vscode.EventEmitter<vscode.Uri>();
+
   const logyouReadonlyProvider = new (class
     implements vscode.TextDocumentContentProvider
   {
     // emitter and its event
     onDidChangeEmitter = new vscode.EventEmitter<vscode.Uri>();
     onDidChange = this.onDidChangeEmitter.event;
+
+    constructor() {
+      refreshDocument.event((e) => {
+        this.onDidChangeEmitter.fire(e);
+      });
+    }
 
     provideTextDocumentContent(
       uri: vscode.Uri,
@@ -110,6 +116,12 @@ export function activate(context: vscode.ExtensionContext) {
         scheme: logyouScheme,
         fragment: editor.document.uri.scheme,
       });
+      let visibleEditor = vscode.window.visibleTextEditors.filter(e => e.document.uri.toString() === uri.toString())[0];
+
+      if (visibleEditor !== undefined) {
+        refreshDocument.fire(uri);
+        return;
+      }
 
       const doc = await vscode.workspace.openTextDocument(uri); // calls back into the provider
       await vscode.window.showTextDocument(doc, {

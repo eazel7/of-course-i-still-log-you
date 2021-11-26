@@ -2,7 +2,7 @@
   "name": "of-course-i-still-log-you",
   "displayName": "Of course I still log you",
   "description": "Amazing log helper",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "engines": {
     "vscode": "^1.61.0"
   },
