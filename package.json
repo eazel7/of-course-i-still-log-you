@@ -12,6 +12,7 @@
   "activationEvents": [
     "onStartupFinished"
   ],
+  "main": "./dist/local/extension.js",
   "browser": "./dist/web/extension.js",
   "contributes": {
     "viewsContainers": {
@@ -36,6 +37,11 @@
       ]
     },
     "commands": [
+      {
+        "command": "logyouview.parseOutput",
+        "title": "Follow, filter and colorize a command's output",
+        "icon": "$(terminal)"
+      },
       {
         "command": "logyouview.add",
         "title": "Add",
@@ -83,6 +89,11 @@
           "command": "logyouview.openjson",
           "when": "view == logyouview",
           "group": "navigation"
+        },
+        {
+          "command": "logyouview.parseOutput",
+          "when": "view == logyouview",
+          "group": "navigation"
         }
       ],
       "view/item/context": [
@@ -105,9 +116,10 @@
     }
   },
   "scripts": {
-    "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
+    "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=.",
     "pretest": "npm run compile-web",
     "vscode:prepublish": "npm run package-web",
+		"compile": "tsc -p ./",
     "compile-web": "webpack",
     "watch-web": "webpack --watch",
     "package-web": "webpack --mode production --devtool hidden-source-map",
