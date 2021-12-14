@@ -1,5 +1,7 @@
 # Of course I still log you
 
+[![Join the chat at https://gitter.im/of-course-i-still-log-you/community](https://badges.gitter.im/of-course-i-still-log-you/community.svg)](https://gitter.im/of-course-i-still-log-you/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This extension allows users to colorize text editor lines based on different regular expressions. There are plans for more, for helping in general with the more-than-daily task that is analyzing, extracting, filtering a log file.
 
 ![Demo](https://github.com/eazel7/of-course-i-still-log-you/blob/master/demo.gif?raw=true)
