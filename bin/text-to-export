@@ -1,0 +1,12 @@
+#! /usr/bin/env node
+
+if (process.argv.length !== 3) {
+    console.error('One file must be passed as parameter');
+    process.exit(-1);
+}
+
+for (let i = 2; i < process.argv.length; i++) {
+    let file = require('fs').readFileSync(process.argv[i]);
+
+    process.stdout.write('module.exports = ' + JSON.stringify(file.toString('utf-8')) + ';\n');
+}
