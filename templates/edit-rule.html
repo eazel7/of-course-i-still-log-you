@@ -75,19 +75,19 @@
 </head>
 
 <body>
+    <pre>{{asString}}</pre>
     <div><label>Rule name: <input type="text" id="rulelabel" value="{{rule.label}}" /></label></div>
     <div><label>Regexp: <input type="text" id="ruleregexp" value="{{rule.regexp}}" /></label></div>
-    <div><label>Enabled: <input class="flipswitch" type="checkbox" id="ruledisabled" {{#rule.disabled}}"checked"
-                {{/rule.disabled}}></label></div>
+    <div><label>Enabled: <input class="flipswitch" type="checkbox" id="ruledisabled" {{^rule.disabled}} checked {{/rule.disabled}}></label></div>
     <div><label>Full line: <input class="flipswitch" type="checkbox" id="rulefullline"
-                {{#rule.highlightFullLine}}"checked" {{/rule.highlightFullLine}} /></label></div>
+                {{#rule.highlightFullLine}} checked {{/rule.highlightFullLine}} /></label></div>
     <div><label>Case insensitive: <input class="flipswitch" type="checkbox" id="rulecaseinsensitive"
-                {{#rule.caseInsensitive}} "checked" {{/rule.caseInsensitive}} /></label></div>
+                {{#rule.caseInsensitive}} checked {{/rule.caseInsensitive}} /></label></div>
     <div><label>Tag:
             <select id="selectedtag" value="{{rule.tag}}">
-                {{#tagNames}}
-                <option {{#selected}} "selected" {{/selected}} value="{{name}}">{{friendlyName}}</option>
-                {{/tagNames}}
+                {{#tags}}
+                <option {{#selected}} "selected" {{/selected}} value="{{key}}">{{friendlyName}}</option>
+                {{/tags}}
             </select></label></div>
     <div><a href="javascript:" id="savebutton" style="
 border: 1px solid;

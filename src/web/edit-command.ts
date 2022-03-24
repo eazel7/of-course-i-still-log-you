@@ -2,13 +2,24 @@ import * as vscode from "vscode";
 import { Uri } from "vscode";
 import { OfCourseIStillLogYouTreeDataProvider } from "./data-provider";
 import { LogColoringRule } from "./rule";
-import { getTagNames, getTag } from "./tags";
+import { getTags } from "./tags";
 import { render } from 'mustache';
 
 function buildHtml(rule: LogColoringRule, codiconCss: string): string {
-  let tagNames = getTagNames();
+  let tags = getTags();
 
-  const html = render(require('./edit-rule-html'), {});
+  for (let tag of tags) {
+    tag.selected = rule.tag === tag.key;
+  }
+
+  const html = render(require('./edit-rule-html'), {
+    asString: JSON.stringify({tags: tags,
+      rule: rule,
+      codiconCss: codiconCss}),
+    tags: tags,
+    rule: rule,
+    codiconCss: codiconCss
+  });
 
   return html;
 }

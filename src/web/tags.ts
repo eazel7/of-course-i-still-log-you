@@ -7,17 +7,15 @@ export interface LogYouTag {
   friendlyName: string;
 }
 function makeDecorator(
+  key: string,
   overviewRulerColor: string,
   borderColor: string,
   darkBackgroundColor: string,
   lightBackgroundColor: string,
   friendlyName: string
-): {
-  decoratorType: vscode.TextEditorDecorationType;
-  fullLineDecoratorType: vscode.TextEditorDecorationType;
-  friendlyName: string;
-} {
+): TagDecoration {
   return {
+    key: key,
     decoratorType: vscode.window.createTextEditorDecorationType({
       isWholeLine: false,
       rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
@@ -50,33 +48,41 @@ function makeDecorator(
   };
 }
 
+interface TagDecoration {
+  selected?: boolean,
+  key: string,
+  fullLineDecoratorType: vscode.TextEditorDecorationType;
+  decoratorType: vscode.TextEditorDecorationType;
+  friendlyName: string;
+}
+
 const tags: {
-  [key: string]: {
-    fullLineDecoratorType: vscode.TextEditorDecorationType;
-    decoratorType: vscode.TextEditorDecorationType;
-    friendlyName: string;
-  };
-} = {
-  red: makeDecorator("#ff000090", "#ff0000", "#1f0a0f90", "#fce3e990", "Red"),
-  green: makeDecorator(
-    "#00ff0090",
-    "#00ff00",
-    "#112c1990",
-    "#d5fbe090",
-    "Green"
-  ),
-  blue: makeDecorator("#0000ff90", "#0000ff", "#181f3590", "#d2d9ef90", "Blue"),
-  violet: makeDecorator(
-    "#ff00ff90",
-    "#ff00ff",
-    "#26183590",
-    "#e9d2ef90",
-    "Violet"
-  ),
-};
+  [key: string]: TagDecoration;
+} = tagDecorationsToObject([makeDecorator("red", "#ff000090", "#ff0000", "#1f0a0f90", "#fce3e990", "Red"),
+makeDecorator(
+  "green",
+  "#00ff0090",
+  "#00ff00",
+  "#112c1990",
+  "#d5fbe090",
+  "Green"
+),
+makeDecorator("blue", "#0000ff90", "#0000ff", "#181f3590", "#d2d9ef90", "Blue"),
+makeDecorator(
+  "violet",
+  "#ff00ff90",
+  "#ff00ff",
+  "#26183590",
+  "#e9d2ef90",
+  "Violet"
+)]);
 
 export function getTagNames() {
   return Object.keys(tags);
+}
+
+export function getTags() {
+  return Object.keys(tags).map(key => tags[key]);
 }
 
 export function getTag(tagName: string): LogYouTag {
@@ -87,3 +93,13 @@ export function getTag(tagName: string): LogYouTag {
     friendlyName: tags[tagName].friendlyName,
   };
 }
+function tagDecorationsToObject(decorations: TagDecoration[]): { [key: string]: TagDecoration; } {
+  const dict: { [key: string]: TagDecoration } = {};
+
+  for (let tag of decorations) {
+    dict[tag.key] = tag;
+  }
+
+  return dict;
+}
+
