@@ -24,12 +24,20 @@ Open up in the left panel the tab for it and add rules!
 
 ## Missing features
 
+- To configure colors in settings
 - To test regular expressions
 - To extract named information from a line (capture groups?)
 - To make it easy to import/export rulesets or profiles and share them somehow
 - To export the extracted information (like the captured groups) in a machine format (JSON)
 
 ## Release Notes
+
+#### 0.0.15
+
+- Updated dependencies
+- Some more hard-coded colors
+
+> hi Carlos, Keller & Victoria!
 
 ### 0.0.14
 
