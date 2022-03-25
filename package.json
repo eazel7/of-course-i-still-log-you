@@ -108,29 +108,32 @@
     "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
     "pretest": "npm run compile-web",
     "vscode:prepublish": "npm run package-web",
+    "precompile-web": "bin/compile-templates",
     "compile-web": "webpack",
     "watch-web": "webpack --watch",
+    "prepackage-web": "bin/compile-templates",
     "package-web": "webpack --mode production --devtool hidden-source-map",
     "lint": "eslint src --ext ts",
     "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ."
   },
   "devDependencies": {
     "@types/mocha": "^9.0.0",
+    "@types/mustache": "^4.1.2",
     "@types/vscode": "^1.61.0",
     "@types/webpack-env": "^1.16.2",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
+    "@vscode/codicons": "^0.0.26",
     "@vscode/test-web": "^0.0.13",
     "assert": "^2.0.0",
+    "copy-webpack-plugin": "^10.0.0",
     "eslint": "^7.32.0",
     "mocha": "^9.1.1",
     "process": "^0.11.10",
     "ts-loader": "^9.2.5",
     "typescript": "^4.4.3",
     "webpack": "^5.52.1",
-    "webpack-cli": "^4.8.0",
-    "@vscode/codicons": "^0.0.26",
-    "copy-webpack-plugin": "^10.0.0"
+    "webpack-cli": "^4.8.0"
   },
   "author": {
     "name": "Diego Pérez",
@@ -142,7 +145,8 @@
   },
   "dependencies": {
     "@vscode/codicons": "^0.0.26",
-    "copy-webpack-plugin": "^10.0.0"
+    "copy-webpack-plugin": "^10.0.0",
+    "mustache": "^4.2.0"
   },
   "icon": "extension-icon.png"
 }

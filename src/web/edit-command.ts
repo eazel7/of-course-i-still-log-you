@@ -1,10 +1,30 @@
 import * as vscode from "vscode";
 import { Uri } from "vscode";
 import { OfCourseIStillLogYouTreeDataProvider } from "./data-provider";
-import { buildHtml } from "./edit-rule-html";
 import { LogColoringRule } from "./rule";
+import { getTags } from "./tags";
+import { render } from 'mustache';
 
-export function buildEditCommand(editViewsByRule: {[key: string]: vscode.WebviewPanel}, dataProvider: OfCourseIStillLogYouTreeDataProvider, context: vscode.ExtensionContext) {
+function buildHtml(rule: LogColoringRule, codiconCss: string): string {
+  let tags = getTags();
+
+  for (let tag of tags) {
+    tag.selected = rule.tag === tag.key;
+  }
+
+  const html = render(require('./edit-rule-html'), {
+    asString: JSON.stringify({tags: tags,
+      rule: rule,
+      codiconCss: codiconCss}),
+    tags: tags,
+    rule: rule,
+    codiconCss: codiconCss
+  });
+
+  return html;
+}
+
+export function buildEditCommand(editViewsByRule: { [key: string]: vscode.WebviewPanel }, dataProvider: OfCourseIStillLogYouTreeDataProvider, context: vscode.ExtensionContext) {
   return (rule: LogColoringRule) => {
     let existingView = editViewsByRule[rule.id];
     if (existingView !== undefined) {

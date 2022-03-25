@@ -1,0 +1,3 @@
+#! /bin/bash
+
+bin/text-to-export templates/edit-rule.html > src/web/edit-rule-html.js
