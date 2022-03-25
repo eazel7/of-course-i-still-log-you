@@ -58,24 +58,15 @@ interface TagDecoration {
 
 const tags: {
   [key: string]: TagDecoration;
-} = tagDecorationsToObject([makeDecorator("red", "#ff000090", "#ff0000", "#1f0a0f90", "#fce3e990", "Red"),
-makeDecorator(
-  "green",
-  "#00ff0090",
-  "#00ff00",
-  "#112c1990",
-  "#d5fbe090",
-  "Green"
-),
-makeDecorator("blue", "#0000ff90", "#0000ff", "#181f3590", "#d2d9ef90", "Blue"),
-makeDecorator(
-  "violet",
-  "#ff00ff90",
-  "#ff00ff",
-  "#26183590",
-  "#e9d2ef90",
-  "Violet"
-)]);
+} = tagDecorationsToObject([
+  makeDecorator("yellow", "#ffee0090", "#ffd900", "#1f1a0a90", "#fafce390", "Yellow"),
+  makeDecorator("orange", "#ff7b0090", "#ff6600", "#1f120a90", "#fce3e990", "Orange"),
+  makeDecorator("aqua", "#00ff8890", "#00ff88", "#0a1f1990", "#e3fcf890", "Acqua"),
+  makeDecorator("red", "#ff000090", "#ff7b00", "#1f0a0f90", "#fce3e990", "Red"),
+  makeDecorator("green", "#00ff0090", "#00ff00", "#112c1990", "#d5fbe090", "Green"),
+  makeDecorator("blue", "#0000ff90", "#0000ff", "#181f3590", "#d2d9ef90", "Blue"),
+  makeDecorator("violet", "#ff00ff90", "#ff00ff", "#26183590", "#e9d2ef90", "Violet")
+]);
 
 export function getTagNames() {
   return Object.keys(tags);

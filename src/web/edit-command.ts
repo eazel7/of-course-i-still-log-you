@@ -13,9 +13,6 @@ function buildHtml(rule: LogColoringRule, codiconCss: string): string {
   }
 
   const html = render(require('./edit-rule-html'), {
-    asString: JSON.stringify({tags: tags,
-      rule: rule,
-      codiconCss: codiconCss}),
     tags: tags,
     rule: rule,
     codiconCss: codiconCss
