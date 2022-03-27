@@ -1,3 +1,4 @@
 #! /bin/bash
 
+# I'm doing this because webpack doesn't want to use the asset/source neither the raw-loader
 bin/text-to-export templates/edit-rule.html > src/web/edit-rule-html.js

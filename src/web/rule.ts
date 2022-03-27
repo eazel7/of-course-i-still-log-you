@@ -4,11 +4,6 @@ import * as vscode from "vscode";
  * Log coloring rule
  */
 export class LogColoringRule extends vscode.TreeItem {
-  /**
-   * Identification number,
-   * required for TreeView API mostly
-   */
-  id: string;
   onUpdate: () => void = () => {};
   disabled: boolean;
   highlightFullLine: boolean;
@@ -34,7 +29,7 @@ export class LogColoringRule extends vscode.TreeItem {
   ) {
     super(label, vscode.TreeItemCollapsibleState.None);
 
-    this.id = id;
+    super.id = id;
     this.regexp = regexp;
     this.disabled = disabled;
     this.tag = tag;

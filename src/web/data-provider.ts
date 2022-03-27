@@ -3,6 +3,9 @@ import { Buffer } from "buffer";
 import * as vscode from "vscode";
 import { LogColoringRule } from "./rule";
 
+/**
+ * data provider for the rules tree view
+ */
 export class OfCourseIStillLogYouTreeDataProvider
   implements vscode.TreeDataProvider<LogColoringRule>
 {
@@ -11,11 +14,18 @@ export class OfCourseIStillLogYouTreeDataProvider
    * @param rule Rule to toggle
    */
   toggleDisabled(rule: LogColoringRule) {
+    // toggle the disabled value
     rule.disabled = !rule.disabled;
+
+    // save to disk
     this.saveToDisk().then(() => {
+      // then notify the provider that a refresh is necessary
       this.refresh();
+      // and trigger the events that comes after
       this.onRefresh();
     });
+    
+    // notify that the rule has been updated
     rule.update();
   }
 
@@ -24,15 +34,28 @@ export class OfCourseIStillLogYouTreeDataProvider
    * @param rule Rule to toggle
    */
   deleteRule(rule: LogColoringRule) {
+    // remove the rule from the rules array
     this.rules.splice(this.rules.indexOf(rule), 1);
+    
+    // then save to disk
     this.saveToDisk().then(() => {
+      // then notify the provider that a refresh is necessary
       this.refresh();
+      // and trigger the events that comes after
       this.onRefresh();
     });
   }
+
+  // start with Id 1
   lastId = 1;
+  // the default onRefresh handler does nothing
   onRefresh: () => void = () => {};
 
+  /**
+   * creates a new rule, adds it to the list and saves the list to disk
+   * 
+   * @returns the newly created rule
+   */
   addNewEntry() {
     let rule = new LogColoringRule(
       // yeah, we're using an ID
@@ -56,6 +79,11 @@ export class OfCourseIStillLogYouTreeDataProvider
     return rule;
   }
 
+  /**
+   * instructs the data provider to load the rules that were saved
+   * 
+   * @returns a promise that completes when the rules finishes loading
+   */
   loadFromDisk(): Thenable<void> {
     return (async () => {
       try {
@@ -104,6 +132,11 @@ export class OfCourseIStillLogYouTreeDataProvider
     })();
   }
 
+  /**
+   * saves the changes
+   * 
+   * @returns a promise that succeeds when the saving operation completes, fails otherwise
+   */
   saveToDisk(): Thenable<void> {
     if (this.context.storageUri !== undefined) {
       return (async () => {
@@ -140,6 +173,7 @@ export class OfCourseIStillLogYouTreeDataProvider
       return Promise.resolve();
     }
   }
+
   async getSettingsUri(): Promise<Uri> {
     let baseUri = this.context.storageUri as Uri;
     await vscode.workspace.fs.createDirectory(baseUri);
@@ -164,12 +198,16 @@ export class OfCourseIStillLogYouTreeDataProvider
     this._onDidChangeTreeData.fire();
   }
 
+  /** return a specific element,
+   * the element itself inherits from TreeItem
+   */
   getTreeItem(
     element: LogColoringRule
   ): vscode.TreeItem | Thenable<vscode.TreeItem> {
     return element;
   }
 
+  /** return the rules */
   getChildren(
     element?: LogColoringRule
   ): vscode.ProviderResult<LogColoringRule[]> {

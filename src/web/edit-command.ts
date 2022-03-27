@@ -5,6 +5,10 @@ import { LogColoringRule } from "./rule";
 import { getTags } from "./tags";
 import { render } from 'mustache';
 
+/** returns the HTML for the Edit rule webview 
+ * 
+ * @param rule the rule to edit
+*/
 function buildHtml(rule: LogColoringRule, codiconCss: string): string {
   let tags = getTags();
 
@@ -23,11 +27,11 @@ function buildHtml(rule: LogColoringRule, codiconCss: string): string {
 
 export function buildEditCommand(editViewsByRule: { [key: string]: vscode.WebviewPanel }, dataProvider: OfCourseIStillLogYouTreeDataProvider, context: vscode.ExtensionContext) {
   return (rule: LogColoringRule) => {
-    let existingView = editViewsByRule[rule.id];
+    let existingView = editViewsByRule[rule.id!!];
     if (existingView !== undefined) {
       existingView.reveal(existingView.viewColumn);
     } else {
-      let view = (editViewsByRule[rule.id] = vscode.window.createWebviewPanel(
+      let view = (editViewsByRule[rule.id!!] = vscode.window.createWebviewPanel(
         "logyoueditruleview",
         "Edit rule",
         vscode.ViewColumn.Two,
@@ -64,7 +68,7 @@ export function buildEditCommand(editViewsByRule: { [key: string]: vscode.Webvie
       });
 
       view.onDidDispose(() => {
-        delete editViewsByRule[rule.id];
+        delete editViewsByRule[rule.id!!];
       });
 
       view.webview.html = buildHtml(rule, codiconCss.toString());
